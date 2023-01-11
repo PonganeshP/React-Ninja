@@ -1,25 +1,36 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import { Component, React } from "react";
+import Hello from "./components/Hello";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      date: new Date(),
+      name: "Jake Sully",
+      login: true,
+    };
+  }
+  componentDidMount() {
+    const timer = () =>
+      this.setState({
+        date: new Date(),
+      });
+    setInterval(timer, 1000);
+  }
+  render() {
+    return (
+      <div className="App">
+        <h1>Welcome to Pandora</h1>
+        <p>{this.state.date.toLocaleString()}</p>
+        {this.state.login ? (
+          <Hello name={this.state.name} />
+        ) : (
+          <h2>Please Login</h2>
+        )}
+      </div>
+    );
+  }
 }
 
 export default App;
