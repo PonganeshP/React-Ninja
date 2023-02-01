@@ -1,11 +1,12 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 function Hello(props) {
+  useEffect(() => {
+    console.log("Child Useeffect");
+  });
   return (
     <div>
-      <h2>Hello {props.name}</h2>
-      {props.children}
-      {console.log(props.children[0].props)}
+      <h2>Hello child</h2>
     </div>
   );
 }

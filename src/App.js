@@ -1,47 +1,43 @@
 import "./App.css";
-import { Component, React } from "react";
-import Hello from "./components/Hello";
+import { React, useEffect, useRef, useState } from "react";
 
-class App extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      date: new Date(),
-      name: "Jake Sully",
-      login: true,
-      people: ["Jake Sully", "Neytri", "Neteyam", " Lo'ak"],
-    };
-  }
-  componentDidMount() {
-    // const timer = () =>
-    //   this.setState({
-    //     date: new Date(),
-    //   });
-    // setInterval(timer, 5000);
-  }
-  render() {
-    return (
-      <div className="App">
-        <h1>Welcome to Pandora</h1>
-        <p>{this.state.date.toLocaleString()}</p>
-        {this.state.login ? (
-          <Hello name={this.state.name}>
-            <h1>Varum aana varadhuu.....</h1>
-            <h2>Hello mister...</h2>
-          </Hello>
-        ) : (
-          <h2>Please Login</h2>
-        )}
+const App = () => {
+  const [value, setvalue] = useState("");
+  const renderedCount = useRef(1);
+  const previousValue = useRef("");
 
-        <h3>People in Pandoraa</h3>
-        <div>
-          {this.state.people.map((p) => {
-            return <p key={p.toString()}>{p}</p>;
-          })}
-        </div>
+  //Use Case 1: // setState in useEffect is not good
+
+  // useEffect(() => {
+  //   setrenderedCount((prev) => prev + 1);
+  // });
+
+  useEffect(() => {
+    renderedCount.current = renderedCount.current + 1;
+    console.log("Hello");
+  });
+
+  //Use Case 2: // for accessing DOM element
+  let element = useRef(); // element.current.focus()
+
+  //Use Case 3: // store previous values
+  useEffect(() => {
+    previousValue.current = value;
+  }, [value]);
+
+  return (
+    <div>
+      <input
+        ref={element}
+        value={value}
+        onChange={(e) => setvalue(e.target.value)}
+      />
+      <div>
+        My name is {value} and used to be {previousValue.current}
       </div>
-    );
-  }
-}
+      <div> times rendered: {renderedCount.current}</div>
+    </div>
+  );
+};
 
 export default App;
