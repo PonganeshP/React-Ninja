@@ -1,10 +1,23 @@
 import "./App.css";
-import { React, useEffect, useRef, useState } from "react";
+import { React, useEffect, useMemo, useRef, useState } from "react";
 
 const App = () => {
   const [value, setvalue] = useState("");
   const renderedCount = useRef(1);
   const previousValue = useRef("");
+  const [dark, setdark] = useState(false);
+
+  const themeStyle = useMemo(() => {
+    return {
+      theme: {
+        background: dark,
+      },
+    };
+  }, [dark]);
+
+  useEffect(() => {
+    console.log("Theme style use effect executed");
+  }, [themeStyle]); // thoungh input is not given in dependency it will excuted
 
   //Use Case 1: // setState in useEffect is not good
 
@@ -36,6 +49,14 @@ const App = () => {
         My name is {value} and used to be {previousValue.current}
       </div>
       <div> times rendered: {renderedCount.current}</div>
+      <button
+        onClick={() => {
+          setdark((prev) => !prev);
+        }}
+      >
+        {" "}
+        Change Theme{" "}
+      </button>
     </div>
   );
 };
